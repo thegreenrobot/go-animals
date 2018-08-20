@@ -7,17 +7,32 @@ MAKEFILE_RULES := $(shell cat Makefile | grep "^[A-Za-z]" | awk '{print $$1}' | 
 default: help
 
 format:  ## Format the go
-	@echo "go format ... "
+	@echo "!!! go formart !!! "
 	go fmt src/*.go
 
 build:  ## Build the go
-	@echo "go build ... "
+	@echo "!!! go build !!! "
 	go build src/*
 
 run:  ## Run the go
-	@echo "run all the things ... "
+	@echo "!!! run all the things !!! "
 	./main
 
+version:  ## Generate version file
+	@echo "!!! creating version file !!! "
+	git rev-parse HEAD > version.txt
+
+artifact:  ## Create artifact
+	@echo "!!! creating release artifact !!! "
+	tar cvf `git rev-parse HEAD`.tar version.txt main
+
+push:  ## Push artifact - arg1=YOURBUCKET
+	@echo "!!! push artifact somewhere !!! "
+	aws s3 cp `git rev-parse HEAD`.tar s3://$(arg1)
+
+release: ## Create release - artifact|push
+	@echo "!!! release all the things !!! "
+release: version artifact push
 
 help:  ## This help dialog.
 	echo "                 _         __ _ _        "
