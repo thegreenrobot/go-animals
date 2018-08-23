@@ -10,7 +10,7 @@ format:  ## Format the go
 	@echo "!!! go formart !!! "
 	go fmt src/*.go
 
-build-osx:  ## Build the go for osx
+build:  ## Build the go for osx
 	@echo "!!! go build osx !!! "
 	go build -o animals.osx src/*
 
@@ -38,7 +38,7 @@ push:  ## Push artifact - arg1=YOURBUCKET
 
 release: ## Create release - artifact|push
 	@echo "!!! release all the things !!! "
-release: version artifact push
+release: version build build-linux artifact push
 
 help:  ## This help dialog.
 	echo "                 _         __ _ _        "
