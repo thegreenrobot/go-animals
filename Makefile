@@ -10,9 +10,13 @@ format:  ## Format the go
 	@echo "!!! go formart !!! "
 	go fmt src/*.go
 
-build:  ## Build the go
-	@echo "!!! go build !!! "
-	go build src/*
+build-osx:  ## Build the go for osx
+	@echo "!!! go build osx !!! "
+	go build -o animals.osx src/*
+
+build-linux:  ## Build the go for linux
+	@echo "!!! go build linux !!! "
+	GOOS=linux GOARCH=amd64 go build -o animals.tux src/*
 
 run:  ## Run the go
 	@echo "!!! run all the things !!! "
@@ -24,11 +28,13 @@ version:  ## Generate version file
 
 artifact:  ## Create artifact
 	@echo "!!! creating release artifact !!! "
-	tar zcvf `git rev-parse HEAD`.tar.gz version.txt main
+	tar zcvf `git rev-parse HEAD`.tar.gz version.txt animals.tux
+	md5 -q `git rev-parse HEAD`.tar.gz > `git rev-parse HEAD`.tar.gz.MD5
 
 push:  ## Push artifact - arg1=YOURBUCKET
 	@echo "!!! push artifact somewhere !!! "
 	aws s3 cp `git rev-parse HEAD`.tar.gz s3://$(arg1)
+	aws s3 cp `git rev-parse HEAD`.tar.gz.MD5 s3://$(arg1)
 
 release: ## Create release - artifact|push
 	@echo "!!! release all the things !!! "
