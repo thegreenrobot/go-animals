@@ -1,4 +1,7 @@
 main
 vendor/
 version.txt
-*.tar
+*.tar.gz
+*.tar.gz.MD5
+animals.tux
+animals.osx
