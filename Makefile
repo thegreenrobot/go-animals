@@ -24,11 +24,11 @@ version:  ## Generate version file
 
 artifact:  ## Create artifact
 	@echo "!!! creating release artifact !!! "
-	tar zcvf `git rev-parse HEAD`.tar version.txt main
+	tar zcvf `git rev-parse HEAD`.tar.gz version.txt main
 
 push:  ## Push artifact - arg1=YOURBUCKET
 	@echo "!!! push artifact somewhere !!! "
-	aws s3 cp `git rev-parse HEAD`.tar s3://$(arg1)
+	aws s3 cp `git rev-parse HEAD`.tar.gz s3://$(arg1)
 
 release: ## Create release - artifact|push
 	@echo "!!! release all the things !!! "
