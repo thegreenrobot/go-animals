@@ -24,7 +24,7 @@ version:  ## Generate version file
 
 artifact:  ## Create artifact
 	@echo "!!! creating release artifact !!! "
-	tar cvf `git rev-parse HEAD`.tar version.txt main
+	tar zcvf `git rev-parse HEAD`.tar version.txt main
 
 push:  ## Push artifact - arg1=YOURBUCKET
 	@echo "!!! push artifact somewhere !!! "
