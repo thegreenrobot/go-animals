@@ -36,6 +36,10 @@ push:  ## Push artifact - arg1=YOURBUCKET
 	aws s3 cp `git rev-parse HEAD`.tar.gz s3://$(arg1)
 	aws s3 cp `git rev-parse HEAD`.tar.gz.MD5 s3://$(arg1)
 
+clean:  ## Clean up - delete local artifacts
+	@echo "!!! deleting local artifacts !!! "
+	rm  `git rev-parse HEAD`.tar.gz*
+
 release: ## Create release - artifact|push
 	@echo "!!! release all the things !!! "
 release: version build build-linux artifact push
