@@ -31,24 +31,18 @@ artifact:  ## Create artifact
 	tar zcvf `git rev-parse HEAD`.tar.gz version.txt animals.tux
 	md5 -q `git rev-parse HEAD`.tar.gz > `git rev-parse HEAD`.tar.gz.MD5
 
-appspec: ## Create appspec artifact
-	@echo "!!! creating codedeploy appspec artifact !!! "
-	zip -r `git rev-parse HEAD`.zip appspec.yml deploy_hooks
-
 push:  ## Push artifact - arg1=YOURBUCKET
 	@echo "!!! push artifact somewhere !!! "
 	aws s3 cp `git rev-parse HEAD`.tar.gz s3://$(arg1)
 	aws s3 cp `git rev-parse HEAD`.tar.gz.MD5 s3://$(arg1)
-	aws s3 cp `git rev-parse HEAD`.zip s3://$(arg1)
 
 clean:  ## Clean up - delete local artifacts
 	@echo "!!! deleting local artifacts !!! "
 	rm  `git rev-parse HEAD`.tar.gz*
-	rm  `git rev-parse HEAD`.zip
 
 release: ## Create release - artifact|push
 	@echo "!!! release all the things !!! "
-release: version build build-linux artifact appspec push
+release: version build build-linux artifact push
 
 help:  ## This help dialog.
 	echo "                 _         __ _ _        "
